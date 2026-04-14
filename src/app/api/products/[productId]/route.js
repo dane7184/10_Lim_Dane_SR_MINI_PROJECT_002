@@ -28,3 +28,20 @@ export async function PUT(request, { params }) {
 
     return NextResponse.json(data);
 }
+
+export async function DELETE(request, { params }) {
+    const { productId } = await params;
+    const headers = await headerToken();
+
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/products/${productId}`, {
+        method: "DELETE",
+        headers,
+    });
+
+    console.log("DELETE STATUS:", res.status);
+
+    const text = await res.text();
+    const data = text ? JSON.parse(text) : {};
+    if (!res.ok) return NextResponse.json(data, { status: res.status });
+    return NextResponse.json(data);
+}

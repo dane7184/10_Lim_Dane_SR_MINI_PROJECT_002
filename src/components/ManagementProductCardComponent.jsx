@@ -4,6 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import EditProductModal from "./EditProductModal";
+import {deleteProductService} from "./../service/deleteProduct.service";
+import DeleteConfirmModal from "./DeleteConfirmModal";
 
 export function StarRow({ rating }) {
     if (!rating) return (
@@ -24,11 +26,26 @@ export default function ManagementProductCardComponent({ product, categories }) 
     const { productId, name, price, imageUrl, star } = product;
     const [menuOpen, setMenuOpen] = useState(false);
     const [showEdit, setShowEdit] = useState(false);
+    const [showDelete, setShowDelete] = useState(false);
+    const [deleteLoading, setDeleteLoading] = useState(false);
     const [currentProduct, setCurrentProduct] = useState(product);
 
     function handleUpdated(updated) {
         if (updated) setCurrentProduct(updated);
         setShowEdit(false);
+    }
+
+    async function handleDelete() {
+        setDeleteLoading(true);
+        try {
+            await deleteProductService(productId);
+            setShowDelete(false);
+            onDeleted?.(productId);
+        } catch (e) {
+            alert("Failed to delete: " + e.message);
+        } finally {
+            setDeleteLoading(false);
+        }
     }
 
     return (
@@ -55,10 +72,7 @@ export default function ManagementProductCardComponent({ product, categories }) 
                             </button>
                             <button
                                 className="flex items-center gap-2 w-full px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 rounded-b-xl"
-                                onClick={() => {
-                                    setMenuOpen(false);
-                                    alert(`Delete ${name}?`);
-                                }}
+                                onClick={() => { setMenuOpen(false); setShowDelete(true); }}
                             >
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                     <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/>
@@ -106,6 +120,15 @@ export default function ManagementProductCardComponent({ product, categories }) 
                     categories={categories}
                     onClose={() => setShowEdit(false)}
                     onUpdated={handleUpdated}
+                />
+            )}
+
+            {showDelete && (
+                <DeleteConfirmModal
+                    productName={currentProduct.name}
+                    loading={deleteLoading}
+                    onConfirm={handleDelete}
+                    onClose={() => setShowDelete(false)}
                 />
             )}
         </>
