@@ -34,7 +34,7 @@ export default function ManageProductsClient({ initialProducts, categories }) {
 
                 <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
                     {products.map((product) => (
-                        <ManagementProductCardComponent key={product.productId} product={product} />
+                        <ManagementProductCardComponent key={product.productId} product={product} categories={categories} />
                     ))}
                 </div>
             </div>

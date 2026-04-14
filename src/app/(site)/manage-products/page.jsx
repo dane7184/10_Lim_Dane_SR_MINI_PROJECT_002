@@ -9,6 +9,7 @@ export default async function page() {
     console.log("product in page manage product", products);
 
     const categoriesRes = await getAllCategories();
+    console.log("RAW categories:", JSON.stringify(categoriesRes, null, 2));
     const categories = categoriesRes?.payload || [];
 
     console.log("category in page manage categories", categories);
