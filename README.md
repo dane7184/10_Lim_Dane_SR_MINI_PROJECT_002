@@ -1,9 +1,10 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 ## Add env file
+```
 NEXT_PUBLIC_BASE_URL=your api
 API_BASE_URL=http://localhost:8080
 BETTER_AUTH_SECRET=your secret
-
+```
 ## Getting Started
 
 First, run the development server:
