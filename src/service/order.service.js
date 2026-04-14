@@ -4,7 +4,7 @@ import {headers} from "next/headers";
 
 export async function getAllOrders(){
 
-    const header = await headerToken();
+    const headers = await headerToken();
     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/orders`, {
         headers,
     })
