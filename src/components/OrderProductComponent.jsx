@@ -12,7 +12,6 @@ export default function OrderProductComponent({ orders }) {
                     key={order.orderId}
                     className="border rounded-xl p-5 shadow-sm bg-white"
                 >
-                    {/* Order Header */}
                     <div className="flex justify-between items-center mb-4">
                         <div>
                             <p className="text-sm text-gray-500">Order ID</p>
@@ -29,13 +28,11 @@ export default function OrderProductComponent({ orders }) {
                         </div>
                     </div>
 
-                    {/* Order Date */}
                     <p className="text-sm text-gray-500 mb-4">
                         Order date:{" "}
                         {new Date(order.orderDate).toLocaleString()}
                     </p>
 
-                    {/* Order Details */}
                     <div className="border-t pt-4 space-y-3">
                         {order.orderDetailsResponse.map((item, index) => (
                             <div
